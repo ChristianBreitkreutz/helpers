@@ -1,0 +1,6 @@
+---
+
+- hosts: 3rdparty
+  remote_user: root
+  roles:
+   - update_esf

@@ -1,0 +1,29 @@
+---
+
+- name: Git pull ESF
+  git: repo="git@github.com:ePages-de/esf.git" dest=/root/YUMHRUM/esf
+
+- name: Clean distributions
+  file: path=/root/YUMHRUM/esf/build/ state=absent
+
+- name: Compile destribution
+  command: ./gradlew dist chdir=/root/YUMHRUM/esf/
+
+- name: Remove Snapshot distributions
+  file: path=/root/YUMHRUM/esf/build/distributions/{{item}} state=absent
+  with_items:
+    - esf-epages6-1.15.0-SNAPSHOT.tar
+    - esf-epages6-1.15.0-SNAPSHOT.zip
+
+- name: Remove old ESF Docker image
+  docker_image: 
+    state: absent
+    name: esf
+    tag: latest
+
+- name: Build docker image
+  docker_image:
+    path: /root/YUMHRUM/esf
+    name: esf
+    tag: latest
+    state: present

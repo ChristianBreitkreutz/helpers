@@ -21,6 +21,8 @@
     name: esf
     tag: latest
 
+# cd /root/YUMHRUM/esf
+# docker build -t esf .
 - name: Build docker image
   docker_image:
     path: /root/YUMHRUM/esf
